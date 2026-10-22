@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080A0C">
+  <title>CODEx</title>
+  <style>
+    /* ---------- Design tokens (edit colors here) ---------- */
+    :root {
+      --bg: #080A0C;
+      --surface: #0D1116;
+      --surface-2: #121820;
+      --accent: #00A8F3;
+      --accent-2: #278BFF;
+      --text: #FFFFFF;
+      --border: rgba(0, 168, 243, 0.28);
+      --border-strong: rgba(0, 168, 243, 0.75);
+
+      --radius: 16px;
+      --gap: 14px;
+      --btn-height: 60px;
+      --btn-max-width: 360px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(28px, 6vh, 64px) 20px;
+      overflow-x: hidden;
+      color: var(--text);
+      background-color: var(--bg);
+      font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      /* Subtle glow + faint geometric grid, low contrast */
+      background-image:
+        radial-gradient(ellipse 60% 45% at 50% 0%, rgba(0, 168, 243, 0.16), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(39, 139, 255, 0.08), transparent 70%),
+        linear-gradient(rgba(0, 168, 243, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 168, 243, 0.035) 1px, transparent 1px);
+      background-size: auto, auto, 44px 44px, 44px 44px;
+      background-attachment: fixed;
+    }
+
+    main {
+      width: 100%;
+      max-width: var(--btn-max-width);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(28px, 5vh, 44px);
+    }
+
+    /* ---------- Logo ---------- */
+    .logo {
+      display: block;
+      width: clamp(150px, 52vw, 230px);
+      height: auto;
+      max-height: 26vh;
+      object-fit: contain;
+    }
+
+    /* ---------- Links ---------- */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .link-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      height: var(--btn-height);
+      padding: 0 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--surface-2), var(--surface));
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .link-btn .icon {
+      width: 24px;
+      height: 24px;
+      flex: none;
+      fill: var(--accent);
+      transition: fill 0.2s ease;
+    }
+
+    .link-btn:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-strong);
+      background: linear-gradient(135deg, #15202b, var(--surface-2));
+      box-shadow: 0 8px 28px -6px rgba(0, 168, 243, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .link-btn:hover .icon { fill: var(--accent-2); }
+
+    .link-btn:active {
+      transform: translateY(0) scale(0.985);
+      box-shadow: 0 2px 12px -4px rgba(0, 168, 243, 0.45);
+    }
+
+    .link-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 380px) {
+      :root { --btn-height: 56px; --gap: 12px; }
+      .link-btn { font-size: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .link-btn { transition: none; }
+      .link-btn:hover, .link-btn:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <!-- LOGO: replace "logo.png" with the path to your CODEx logo file -->
+    <img class="logo" id="logo" src="logo.png" alt="CODEX club logo">
+
+    <!-- Buttons are generated from the config in the script below -->
+    <ul class="links" id="links"></ul>
+  </main>
+
+  <script>
+    /* ---------- SOCIAL LINKS: replace each placeholder URL with the real one ---------- */
+    const LINKS = [
+      {
+        label: "Instagram",
+        url: "https://www.instagram.com/codex_esto/",
+        aria: "Follow CODEX on Instagram",
+        path: "M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"
+      },
+      {
+        label: "LinkedIn",
+        url: "https://www.linkedin.com/company/codex-morocco/posts/?feedView=all",
+        aria: "Connect with CODEX on LinkedIn",
+        path: "M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.83v1.54h.06c.53-1 1.84-2.07 3.78-2.07 4.04 0 4.78 2.66 4.78 6.1V21h-4v-5.07c0-1.21-.02-2.77-1.69-2.77-1.69 0-1.95 1.32-1.95 2.68V21h-4V9.75Z"
+      },
+      {
+        label: "TikTok",
+        url: "https://www.tiktok.com/@codex_esto?_r=1&_t=ZS-9AlkNxXGxwi",
+        aria: "Watch CODEX on TikTok",
+        path: "M16.6 2h-3.2v13.4a2.9 2.9 0 1 1-2.9-2.9c.28 0 .55.04.8.11V9.35a6.1 6.1 0 1 0 5.3 6.05V8.6a7.9 7.9 0 0 0 4.6 1.48V6.9a4.7 4.7 0 0 1-4.6-4.9Z"
+      },
+     
+      {
+        label: "WhatsApp Group",
+        url: "https://chat.whatsapp.com/ES4MZ6Kc1YFGcLMANg1lAE?s=sw&p=i&mlu=4&ilr=4&iam=2",
+        aria: "Join the CODEX WhatsApp group",
+        path: "M12.04 2a9.9 9.9 0 0 0-8.5 14.95L2 22l5.19-1.5A9.9 9.9 0 1 0 12.04 2Zm0 1.9a8 8 0 1 1-4.2 14.8l-.3-.18-3.07.89.9-3-.2-.31A8 8 0 0 1 12.04 3.9Zm-3.2 3.6c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.55.75.55-.05 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.67-2.08-.17-.3-.02-.46.13-.6.14-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.51l-.57-.01Z"
+      }
+    ];
+
+    /* ---------- Render buttons ---------- */
+    const list = document.getElementById("links");
+    const NS = "http://www.w3.org/2000/svg";
+
+    LINKS.forEach(({ label, url, aria, path }) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.className = "link-btn";
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.setAttribute("aria-label", aria);
+
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("class", "icon");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("aria-hidden", "true");
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("d", path);
+      svg.appendChild(p);
+
+      const span = document.createElement("span");
+      span.textContent = label;
+
+      a.append(svg, span);
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  </script>
+</body>
+</html>
